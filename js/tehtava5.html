@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<title>Tehtävä 5 – Objekti</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Tehtävä 5 – Auto-objekti</h1>
+
+<div id="output"></div>
+
+<script>
+
+let car = {
+    make: "Toyota",
+    model: "Corolla",
+    modelYear: 2015,
+    inProgress: false,
+
+    start: function() {
+        this.inProgress = true;
+        return "Auto started";
+    }
+};
+
+
+let output = document.getElementById("output");
+output.innerHTML = `
+    <p><strong>Merkki:</strong> ${car.make}</p>
+    <p><strong>Malli:</strong> ${car.model}</p>
+    <p><strong>Vuosimalli:</strong> ${car.modelYear}</p>
+    <p><strong>Käynnissä:</strong> ${car.inProgress}</p>
+`;
+
+
+let startMessage = car.start();
+
+output.innerHTML += `
+    <p><strong>Start:</strong> ${startMessage}</p>
+    <p><strong>Käynnissä nyt:</strong> ${car.inProgress}</p>
+`;
+</script>
+
+</body>
+</html>
