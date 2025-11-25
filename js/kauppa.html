@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<title>Kauppa</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .product-box, .cart-box {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    input {
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+
+<h1>Kauppa</h1>
+
+<div class="product-box">
+    <h2>Tuote</h2>
+    <p><strong>Nimi:</strong> <span id="p-name"></span></p>
+    <p><strong>Hinta:</strong> <span id="p-price"></span> €</p>
+
+    <label>Määrä:</label>
+    <input type="number" id="quantity" placeholder="Esim. 2">
+
+    <button onclick="addToCart()">Lisää ostoskoriin</button>
+</div>
+
+<div class="cart-box">
+    <h2>Ostoskori</h2>
+    <div id="cart-content">Ostoskori on tyhjä.</div>
+    <h3 id="total"></h3>
+</div>
+
+<script>
+
+let product = {
+    name: "Pelikonsoli",
+    price: 299.99
+};
+
+
+let cart = [];
+
+
+document.getElementById("p-name").innerText = product.name;
+document.getElementById("p-price").innerText = product.price.toFixed(2);
+
+
+function addToCart() {
+    let qty = Number(document.getElementById("quantity").value);
+
+    if (qty <= 0 || isNaN(qty)) {
+        alert("Anna kelvollinen määrä!");
+        return;
+    }
+
+    
+    let linePrice = qty * product.price;
+
+    
+    cart.push({
+        name: product.name,
+        qty: qty,
+        price: linePrice
+    });
+
+    
+    updateCartView();
+}
+
+
+function updateCartView() {
+    let cartDiv = document.getElementById("cart-content");
+    let totalDiv = document.getElementById("total");
+
+    if (cart.length === 0) {
+        cartDiv.innerHTML = "Ostoskori on tyhjä.";
+        totalDiv.innerHTML = "";
+        return;
+    }
+
+    
+    let html = `
+        <table>
+            <tr>
+                <th>Tuote</th>
+                <th>Määrä</th>
+                <th>Rivihinta (€)</th>
+            </tr>
+    `;
+
+    let total = 0;
+
+    cart.forEach(item => {
+        html += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>${item.price.toFixed(2)}</td>
+        </tr>
+        `;
+        total += item.price;
+    });
+
+    html += "</table>";
+
+    cartDiv.innerHTML = html;
+    totalDiv.innerHTML = "Yhteensä: " + total.toFixed(2) + " €";
+}
+</script>
+
+</body>
+</html>
